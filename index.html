@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Parking Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <div>
+            <p class="eyebrow">Smart system</p>
+            <h1>Parking</h1>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <button class="nav-item active" type="button" data-nav-target="dashboardTop">Overview</button>
+          <button class="nav-item" type="button" data-nav-target="parkingLayout">Live tracking</button>
+          <button class="nav-item" type="button" data-nav-action="booking">Bookings</button>
+          <button class="nav-item" type="button" data-nav-target="revenueCard">Payments</button>
+          <button class="nav-item" type="button" data-nav-target="activityPanel">Alerts</button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="label">Today</p>
+          <strong id="todayDate">--</strong>
+          <span id="todayTime">--:--</span>
+        </div>
+      </aside>
+
+      <main class="content" id="dashboardTop">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Management dashboard</p>
+            <h2>Smart Parking Management</h2>
+          </div>
+          <button id="addVehicleBtn" class="primary-btn" type="button">+ Add Vehicle</button>
+        </header>
+
+        <section class="stats-grid">
+          <article class="stat-card accent">
+            <span class="label">Total slots</span>
+            <strong id="totalSlots">0</strong>
+            <small>Across 2 floors</small>
+          </article>
+          <article class="stat-card success">
+            <span class="label">Available</span>
+            <strong id="availableSlots">0</strong>
+            <small>Ready to park</small>
+          </article>
+          <article class="stat-card warning">
+            <span class="label">Occupied</span>
+            <strong id="occupiedSlots">0</strong>
+            <small>Currently in use</small>
+          </article>
+          <article class="stat-card danger" id="revenueCard">
+            <span class="label">Revenue</span>
+            <strong id="revenueValue">$0</strong>
+            <small>Today</small>
+          </article>
+        </section>
+
+        <section class="panel-grid">
+          <div class="panel map-panel" id="parkingLayout">
+            <div class="panel-head">
+              <div>
+                <p class="label">Live status</p>
+                <h3>Parking layout</h3>
+              </div>
+              <div class="legend">
+                <span><i class="dot success"></i> Free</span>
+                <span><i class="dot danger"></i> Occupied</span>
+              </div>
+            </div>
+
+            <div class="floor-section">
+              <div class="floor-header">
+                <h4>Ground floor</h4>
+                <span>12 spaces</span>
+              </div>
+              <div id="groundFloorSlots" class="slot-grid"></div>
+            </div>
+
+            <div class="floor-section">
+              <div class="floor-header">
+                <h4>Upper floor</h4>
+                <span>8 spaces</span>
+              </div>
+              <div id="upperFloorSlots" class="slot-grid"></div>
+            </div>
+          </div>
+
+          <aside class="panel detail-panel" id="activityPanel">
+            <div class="panel-head">
+              <div>
+                <p class="label">Selected spot</p>
+                <h3 id="selectedSlotTitle">Slot A1</h3>
+              </div>
+            </div>
+
+            <p id="statusMessage" class="status-message" role="status" aria-live="polite" hidden></p>
+
+            <dialog id="vehicleDialog" class="vehicle-dialog" aria-labelledby="vehicleDialogTitle">
+              <form id="vehicleForm" class="vehicle-form">
+                <div>
+                  <p class="label">New parking session</p>
+                  <h2 id="vehicleDialogTitle">Add vehicle</h2>
+                </div>
+                <label for="vehiclePlate">License plate</label>
+                <input
+                  id="vehiclePlate"
+                  name="vehicle"
+                  type="text"
+                  autocomplete="off"
+                  maxlength="20"
+                  pattern="[A-Za-z0-9 -]{2,20}"
+                  title="Use 2 to 20 letters, numbers, spaces, or hyphens."
+                  placeholder="e.g. AB 123 CD"
+                  required
+                />
+                <label for="vehicleSlot">Available slot</label>
+                <select id="vehicleSlot" name="slot" required></select>
+                <p id="vehicleFormMessage" class="form-message" role="alert" hidden></p>
+                <div class="dialog-actions">
+                  <button id="cancelVehicleBtn" class="secondary-btn" type="button">Cancel</button>
+                  <button id="saveVehicleBtn" class="primary-btn" type="submit">Add vehicle</button>
+                </div>
+              </form>
+            </dialog>
+
+            <div class="slot-details">
+              <div class="detail-row">
+                <span>Status</span>
+                <strong id="slotStatus">Available</strong>
+              </div>
+              <div class="detail-row">
+                <span>Vehicle</span>
+                <strong id="slotVehicle">-</strong>
+              </div>
+              <div class="detail-row">
+                <span>Entry time</span>
+                <strong id="slotEntry">-</strong>
+              </div>
+              <div class="detail-row">
+                <span>Rate</span>
+                <strong id="slotRate">$5/hr</strong>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="toggleSlotBtn" class="primary-btn wide">Occupy slot</button>
+              <button id="resetSlotBtn" class="secondary-btn wide">Reset</button>
+            </div>
+
+            <div class="activity-box">
+              <p class="label">Recent activity</p>
+              <ul id="activityList"></ul>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
