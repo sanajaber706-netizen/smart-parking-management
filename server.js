@@ -157,11 +157,11 @@ function createAppServer() {
       return;
     }
 
-    const requestedPath = req.url === '/' ? '/index.html' : req.url;
-    const safePath = path.normalize(requestedPath).replace(/^\/+/, '');
-    const filePath = path.join(rootDir, safePath);
+    const requestedPath = url.pathname === '/' ? '/index.html' : url.pathname;
+    const safePath = requestedPath.replace(/^[/\]+/, '');
+    const filePath = path.resolve(rootDir, safePath);     const relativePath = path.relative(rootDir, filePath);
 
-    if (!filePath.startsWith(rootDir)) {
+    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
       res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end('Forbidden');
       return;
