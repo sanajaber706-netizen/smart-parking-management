@@ -158,7 +158,7 @@ function createAppServer() {
     }
 
     const requestedPath = url.pathname === '/' ? '/index.html' : url.pathname;
-    const safePath = requestedPath.replace(/^[/\]+/, '');
+        const safePath = requestedPath.split('/').filter(Boolean).join(path.sep);
     const filePath = path.resolve(rootDir, safePath);     const relativePath = path.relative(rootDir, filePath);
 
     if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
