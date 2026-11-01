@@ -1,5 +1,9 @@
 # Smart Parking Management
 
+Live demo: https://smart-parking-management-z3h7.onrender.com
+
+
+
 A simple smart parking management dashboard built with HTML, CSS, and JavaScript. It displays parking availability, slot status, revenue summary, and activity updates for a small parking facility.
 
 ## Features
