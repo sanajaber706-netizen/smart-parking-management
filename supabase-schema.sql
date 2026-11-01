@@ -33,12 +33,12 @@ on conflict (id) do nothing;
 
 alter table public.parking_slots enable row level security;
 
-create policy if not exists "Allow public read access"
+create policy "Allow public read access"
 on public.parking_slots
 for select
 using (true);
 
-create policy if not exists "Allow public update access"
+create policy "Allow public update access"
 on public.parking_slots
 for update
 using (true)
