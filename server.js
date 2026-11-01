@@ -92,7 +92,7 @@ function getAvailablePort(startPort) {
 
 function createAppServer() {
   return http.createServer(async (req, res) => {
-    const url = new URL(req.url, `http://${req.headers.host}`);
+        const url = new URL(req.url, 'http://' + req.headers.host); if (url.pathname === '/supabase-config.js' && req.method === 'GET') { const config = { url: process.env.SUPABASE_URL || '', key: process.env.SUPABASE_ANON_KEY || '' }; res.writeHead(200, { 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'no-store' }); res.end('window.__SUPABASE_CONFIG__ = ' + JSON.stringify(config) + ';'); return; }
 
     if (url.pathname === '/api/slots') {
       if (req.method === 'GET') {
